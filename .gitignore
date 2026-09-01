@@ -52,3 +52,18 @@ _ReSharper*/
 # Generated files
 Generated\ Files/
 *_wpftmp.csproj
+
+#Misc items
+node_modules
+dist
+out
+release/
+.DS_Store
+.eslintcache
+*.log*
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+.env
+.env.local

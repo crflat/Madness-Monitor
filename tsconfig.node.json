@@ -1,0 +1,10 @@
+{
+  "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
+  "include": ["electron.vite.config.*", "src/main/**/*", "src/main/preload/**/*", "src/renderer/**/*", "src/preload/**/*"],
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "composite": true,
+    "types": ["electron-vite/node"]
+  }
+}
