@@ -23,12 +23,33 @@
   --ev-button-alt-hover-bg: var(--ev-c-gray-2);
 }
 
-:root {
+/* semantic layer: LIGHT (default) — same selector shape CoreUI uses */
+:root,
+[data-coreui-theme='light'] {
+  color-scheme: light;
+  --color-background: var(--ev-c-white);
+  --color-background-soft: var(--ev-c-white-soft);
+  --color-background-mute: var(--ev-c-white-mute);
+  --color-text: rgba(37, 43, 54, 0.95);
+  --color-text-soft: rgba(37, 43, 54, 0.68);
+  --color-border: rgba(37, 43, 54, 0.16);
+  --color-panel-bg: rgba(255, 255, 255, 0.72);
+  --color-panel-border: rgba(37, 43, 54, 0.12);
+  --color-logo-glow: rgba(41, 63, 145, 0.45);
+}
+
+/* DARK — MUST come after the light block; see specificity note below */
+[data-coreui-theme='dark'] {
+  color-scheme: dark;
   --color-background: var(--ev-c-black);
   --color-background-soft: var(--ev-c-black-soft);
   --color-background-mute: var(--ev-c-black-mute);
-
-  --color-text: var(--ev-c-text-1);
+  --color-text: rgba(255, 255, 245, 0.86);
+  --color-text-soft: rgba(235, 235, 245, 0.6);
+  --color-border: var(--ev-c-gray-1);
+  --color-panel-bg: rgba(32, 33, 39, 0.72);
+  --color-panel-border: rgba(255, 255, 255, 0.08);
+  --color-logo-glow: #6988e6aa;
 }
 
 *,
