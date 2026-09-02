@@ -1,9 +1,10 @@
-import Home from './pages/Home'
-import APRankings from './pages/APRankings'
-import RankingsChart from './pages/RankingsChart'
-import Scorecards from './pages/Scorecards'
-import Tournaments from './pages/Tournaments'
+import Home from './components/pages/Home'
+import APRankings from './components/pages/APRankings'
+import RankingsChart from './components/pages/RankingsChart'
+import Scorecards from './components/pages/Scorecards'
+import Tournaments from './components/pages/Tournaments'
 import { useState } from 'react'
+import { CContainer, CNavbar, CNavbarNav, CNavItem, CNavLink } from '@coreui/react'
 
 const PAGES = {
   home: <Home></Home>,
@@ -18,14 +19,50 @@ function App(): React.JSX.Element {
 
   return (
     <>
-      <nav>
-        <button onClick={() => setCurrentPage('home')}>Home</button>
-        <button onClick={() => setCurrentPage('aprankings')}>AP Rankings</button>
-        <button onClick={() => setCurrentPage('rankingschart')}>Rankings Chart</button>
-        <button onClick={() => setCurrentPage('scorecards')}>Scorecards</button>
-        <button onClick={() => setCurrentPage('tournaments')}>Tournaments</button>
-      </nav>
-      {PAGES[currentPage]}
+      <CNavbar colorScheme="dark" expand>
+        <CContainer fluid>
+          <CNavbarNav>
+            <CNavItem>
+              <CNavLink onClick={() => setCurrentPage('home')} active={currentPage === 'home'}>
+                Home
+              </CNavLink>
+            </CNavItem>
+            <CNavItem>
+              <CNavLink
+                onClick={() => setCurrentPage('aprankings')}
+                active={currentPage === 'aprankings'}
+              >
+                AP Rankings
+              </CNavLink>
+            </CNavItem>
+            <CNavItem>
+              <CNavLink
+                onClick={() => setCurrentPage('rankingschart')}
+                active={currentPage === 'rankingschart'}
+              >
+                Rankins Chart
+              </CNavLink>
+            </CNavItem>
+            <CNavItem>
+              <CNavLink
+                onClick={() => setCurrentPage('scorecards')}
+                active={currentPage === 'scorecards'}
+              >
+                Scorecards
+              </CNavLink>
+            </CNavItem>
+            <CNavItem>
+              <CNavLink
+                onClick={() => setCurrentPage('tournaments')}
+                active={currentPage === 'tournaments'}
+              >
+                Tournaments
+              </CNavLink>
+            </CNavItem>
+          </CNavbarNav>
+        </CContainer>
+      </CNavbar>
+      <main className="app-content">{PAGES[currentPage]}</main>
     </>
   )
 }
