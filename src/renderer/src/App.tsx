@@ -1,33 +1,31 @@
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import Home from './pages/Home'
+import APRankings from './pages/APRankings'
+import RankingsChart from './pages/RankingsChart'
+import Scorecards from './pages/Scorecards'
+import Tournaments from './pages/Tournaments'
+import { useState } from 'react'
+
+const PAGES = {
+  home: <Home></Home>,
+  aprankings: <APRankings></APRankings>,
+  rankingschart: <RankingsChart></RankingsChart>,
+  scorecards: <Scorecards></Scorecards>,
+  tournaments: <Tournaments></Tournaments>
+}
 
 function App(): React.JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const [currentPage, setCurrentPage] = useState('home')
 
   return (
     <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-        &nbsp;and <span className="ts">TypeScript</span>
-      </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p>
-      <div className="actions">
-        <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
-          </a>
-        </div>
-        <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
-          </a>
-        </div>
-      </div>
-      <Versions></Versions>
+      <nav>
+        <button onClick={() => setCurrentPage('home')}>Home</button>
+        <button onClick={() => setCurrentPage('aprankings')}>AP Rankings</button>
+        <button onClick={() => setCurrentPage('rankingschart')}>Rankings Chart</button>
+        <button onClick={() => setCurrentPage('scorecards')}>Scorecards</button>
+        <button onClick={() => setCurrentPage('tournaments')}>Tournaments</button>
+      </nav>
+      {PAGES[currentPage]}
     </>
   )
 }
