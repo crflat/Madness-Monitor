@@ -4,7 +4,8 @@ import RankingsChart from './components/pages/RankingsChart'
 import Scorecards from './components/pages/Scorecards'
 import Tournaments from './components/pages/Tournaments'
 import { useState } from 'react'
-import { CContainer, CNavbar, CNavbarNav, CNavItem, CNavLink } from '@coreui/react'
+import { CContainer, CNavbar, CNavbarNav, CNavItem, CNavLink, CButton } from '@coreui/react'
+import { useTheme } from './hooks/useTheme'
 
 const PAGES = {
   home: <Home></Home>,
@@ -16,10 +17,11 @@ const PAGES = {
 
 function App(): React.JSX.Element {
   const [currentPage, setCurrentPage] = useState('home')
+  const { theme, isDarkMode, toggleTheme } = useTheme()
 
   return (
     <>
-      <CNavbar colorScheme="dark" expand>
+      <CNavbar className="app-navbar" colorScheme={theme} expand>
         <CContainer fluid>
           <CNavbarNav>
             <CNavItem>
@@ -60,6 +62,18 @@ function App(): React.JSX.Element {
               </CNavLink>
             </CNavItem>
           </CNavbarNav>
+          <CButton
+            className="ms-auto"
+            color="secondary"
+            variant="ghost"
+            type="button"
+            onClick={toggleTheme}
+            aria-label="Toggle dark mode"
+            aria-pressed={isDarkMode}
+            title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            <span aria-hidden="true">{isDarkMode ? '☀' : '☾'}</span>
+          </CButton>
         </CContainer>
       </CNavbar>
       <main className="app-content">{PAGES[currentPage]}</main>
