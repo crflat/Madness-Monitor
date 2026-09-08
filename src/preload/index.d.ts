@@ -1,8 +1,11 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
+import type { ranking } from '../shared/types'
 
 declare global {
   interface Window {
     electron: ElectronAPI
-    api: unknown
+    api: {
+      getRankings: () => Promise<ranking[]>
+    }
   }
 }

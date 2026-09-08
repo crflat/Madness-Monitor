@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain, nativeTheme } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { importRankings } from './importers/rankingsImport'
 
 function createWindow(): void {
   // Create the browser window.
@@ -52,6 +53,8 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
+  ipcMain.handle('rankings:get', () => importRankings())
 
   createWindow()
 
