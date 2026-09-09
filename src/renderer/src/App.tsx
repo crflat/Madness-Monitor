@@ -42,7 +42,7 @@ function App(): React.JSX.Element {
                 onClick={() => setCurrentPage('rankingschart')}
                 active={currentPage === 'rankingschart'}
               >
-                Rankins Chart
+                Rankings Chart
               </CNavLink>
             </CNavItem>
             <CNavItem>
