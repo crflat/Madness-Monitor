@@ -1,8 +1,11 @@
-import { app, shell, BrowserWindow, ipcMain, nativeTheme } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, nativeTheme, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+import iconDark from '../../resources/icon-dark.png?asset'
 import { importRankings } from './importers/rankingsImport'
+import { importTeams } from './importers/teamsImport'
+import { countTeams, saveTeams } from './db/repositories/teams'
+import { openDatabase, closeDatabase } from './db/connection'
 
 function createWindow(): void {
   // Create the browser window.
@@ -11,7 +14,7 @@ function createWindow(): void {
     height: 670,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    ...(process.platform === 'linux' ? { iconDark } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
@@ -44,6 +47,20 @@ app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
+  try {
+    openDatabase()
+  } catch (error) {
+    dialog.showErrorBox('Madness-Monitor could not open its database: ', String(error))
+    app.quit()
+    return
+  }
+
+  if (countTeams() === 0) {
+    importTeams()
+      .then((teams) => console.log(`[db] first-run team import: ${saveTeams(teams)} teams`))
+      .catch((error) => console.error(`[db] teams import failed: ${error}`))
+  }
+
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
   // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
@@ -55,6 +72,19 @@ app.whenReady().then(() => {
   ipcMain.on('ping', () => console.log('pong'))
 
   ipcMain.handle('rankings:get', () => importRankings())
+
+  //teams import
+  ipcMain.handle('teams:refresh', async (): Promise<number> => {
+    const teams = await importTeams()
+    if (teams.length === 0) {
+      throw new Error('CBBD returned no teams')
+    }
+    const saved = saveTeams(teams)
+
+    console.log(`[db] saved ${saved} teams`)
+
+    return saved
+  })
 
   createWindow()
 
@@ -76,3 +106,7 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+app.on('will-quit', () => {
+  closeDatabase()
+})

@@ -6,6 +6,7 @@ declare global {
     electron: ElectronAPI
     api: {
       getRankings: () => Promise<ranking[]>
+      refreshTeams: () => Promise<number>
     }
   }
 }

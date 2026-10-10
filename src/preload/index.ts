@@ -3,7 +3,10 @@ import { electronAPI } from '@electron-toolkit/preload'
 import type { ranking } from '../shared/types'
 
 // Custom APIs for renderer
-const api = { getRankings: (): Promise<ranking[]> => ipcRenderer.invoke('rankings:get') }
+const api = {
+  getRankings: (): Promise<ranking[]> => ipcRenderer.invoke('rankings:get'),
+  refreshTeams: (): Promise<number> => ipcRenderer.invoke('teams:refresh')
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

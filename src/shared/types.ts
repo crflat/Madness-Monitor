@@ -11,3 +11,21 @@ export interface ranking {
   points: number | null
   firstPlaceVotes: number | null
 }
+
+export interface team {
+  id: number
+  sourceId: string | null
+  school: string | null
+  mascot: string | null
+  abbreviation: string | null
+  displayName: string
+  shortDisplayName: string | null
+  primaryColor: string | null
+  secondaryColor: string | null
+  currentVenueId: number | null
+  currentVenue: string | null
+  currentCity: string | null
+  currentState: string | null
+  conferenceId: number | null
+  conference: string
+}
